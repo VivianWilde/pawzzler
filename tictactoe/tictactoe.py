@@ -10,12 +10,12 @@ class TicTacToe:  # TODO inherit from MiniGame
     # board is a list
     # pieces are crosses(1 - player) or circles(2 - ai) or empty(0)
     #
-    player_marker = "X"
-    ai_marker = "O"
+    player_marker = "[X]"
+    ai_marker = "[O]"
 
     def __init__(self):
         # super().__init__()
-        self.board = ["0" for x in range(9)]
+        self.board = ["[ ]" for x in range(9)]
 
     def over(self):
         return TicTacToe.game_over(self.board)
@@ -120,6 +120,6 @@ class TicTacToe:  # TODO inherit from MiniGame
         display = ""
         for i in range(3):
             for j in range(3):
-                display = display + f"{self.board[i*3 + j]} |"
+                display = display + f"{self.board[i*3 + j]}"
             display += "\n"
         return display
