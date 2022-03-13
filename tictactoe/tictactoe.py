@@ -73,9 +73,8 @@ class TicTacToe:  # TODO inherit from MiniGame
         available = TicTacToe.available(self.board)
         random.seed()
         best_spot = None
-        if False:  # random.random() > 0.7:
-            pass
-            # best_spot = available[random.randint(0, len(available) - 1)]
+        if random.random() > 0.7:
+            best_spot = available[random.randint(0, len(available) - 1)]
         else:
             scores = []
             for spot in available:
