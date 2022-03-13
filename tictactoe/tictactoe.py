@@ -15,14 +15,14 @@ class TicTacToe:  # TODO inherit from MiniGame
 
     def __init__(self):
         # super().__init__()
-        self.board = [f"{x}" for x in range(9)]
+        self.board = ["0" for x in range(9)]
 
     def over(self):
         return TicTacToe.game_over(self.board)
 
     @staticmethod
     def game_over(board):
-        return winner(self.board) != "None" or not TicTacToe.available(self.board)
+        return TicTacToe.winner(board) != "None" or not TicTacToe.available(board)
 
     @staticmethod
     def winner(board):
@@ -51,9 +51,9 @@ class TicTacToe:  # TODO inherit from MiniGame
     @staticmethod
     def available(board):
         return [
-            int(x)
-            for x in board
-            if (x != TicTacToe.player_marker and x != TicTacToe.ai_marker)
+            i
+            for i in range(len(board))
+            if (board[i] != TicTacToe.player_marker and board[i] != TicTacToe.ai_marker)
         ]
 
     def player_victory(self):
@@ -69,12 +69,13 @@ class TicTacToe:  # TODO inherit from MiniGame
         self.place(self.board, spot, TicTacToe.player_marker)
 
     def ai_move(self):
-
+        print("AI's move\n")
         available = TicTacToe.available(self.board)
         random.seed()
         best_spot = None
-        if random.random() > 0.7:
-            best_spot = available[random.randint(0, len(available))]
+        if False:  # random.random() > 0.7:
+            pass
+            # best_spot = available[random.randint(0, len(available) - 1)]
         else:
             scores = []
             for spot in available:
@@ -117,4 +118,9 @@ class TicTacToe:  # TODO inherit from MiniGame
             return TicTacToe.player_marker
 
     def __str__(self):
-        return str(self.board)
+        display = ""
+        for i in range(3):
+            for j in range(3):
+                display = display + f" {self.board[i*3 + j]} |"
+            display += "\n"
+        return display
