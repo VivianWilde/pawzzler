@@ -42,9 +42,9 @@ class TicTacToe:  # TODO inherit from MiniGame
                 if board[0 + col] == board[3 + col] == board[6 + col] == j:
                     return j
             # diagonals
-            if board[0] == board[5] == board[8] == j:
+            if board[0] == board[4] == board[8] == j:
                 return j
-            if board[2] == board[5] == board[6] == j:
+            if board[2] == board[4] == board[6] == j:
                 return j
         return "None"
 
@@ -63,8 +63,8 @@ class TicTacToe:  # TODO inherit from MiniGame
         board[spot] = marker
 
     def player_move(self):
-        x = int(input(f"Your turn. x coordinate of your next move:"))  # magic(frontend)
-        y = int(input(f"y coordinate of your next move:"))  # magic(frontend)
+        x = int(input("Your turn. x coordinate of your next move:"))  # magic(frontend)
+        y = int(input("y coordinate of your next move:"))  # magic(frontend)
         spot = y * 3 + x
         self.place(self.board, spot, TicTacToe.player_marker)
 
@@ -121,6 +121,6 @@ class TicTacToe:  # TODO inherit from MiniGame
         display = ""
         for i in range(3):
             for j in range(3):
-                display = display + f" {self.board[i*3 + j]} |"
+                display = display + f"{self.board[i*3 + j]} |"
             display += "\n"
         return display
