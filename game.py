@@ -1,5 +1,6 @@
 import cocos
 import numpy as np
+import random
 
 
 class MiniGame:
@@ -26,50 +27,121 @@ class MiniGame:
         pass
 
 
+class TicTacToe(MiniGame):  # TODO inherit from MiniGame
+    """ Class that represents a game of TicTacToe, along with an ai setup to play against the player."""
+    player_marker = "[X]"
+    ai_marker = "[O]"
 
-# Making a tic-tac-toe game
-#
+    def __init__(self):
+        super().__init__()
+        self.board = ["[ ]" for x in range(9)]
 
+    def over(self):
+        return TicTacToe.game_over(self.board)
 
-class TicTacToe(cocos.layer.Layer):
+    @staticmethod
+    def game_over(board):
+        return TicTacToe.winner(board) != "None" or not TicTacToe.available(board)
 
-    # Representation -
-    # board is a list of lists
-    # pieces are crosses(1) or circles(2) or empty(3)
-    # empty spaces are None
-    #
+    @staticmethod
+    def winner(board):
+        for j in (TicTacToe.player_marker, TicTacToe.ai_marker):
+            # rows
+            for row in range(3):
+                if (
+                        board[0 + (row * 3)]
+                        == board[1 + (row * 3)]
+                        == board[2 + (row * 3)]
+                        == j
+                ):
+                    return j
 
-    def __init__():
-        super(TicTacToe, self).__init__()
-        self.board = np.zeroes(3)
-        self.who = 1
+            # columns
+            for col in range(3):
+                if board[0 + col] == board[3 + col] == board[6 + col] == j:
+                    return j
+            # diagonals
+            if board[0] == board[4] == board[8] == j:
+                return j
+            if board[2] == board[4] == board[6] == j:
+                return j
+        return "None"
 
-    def game_over():
-        while true:
-        return self.board_full() or self.win_condition()
-                x_direction = int(
-                    input(f"Player {self.who}'s turn. x coordinate of your next move:")
-                )
-    def board_full(self):
+    @staticmethod
+    def available(board):
+        return [
+            i
+            for i in range(len(board))
+            if (board[i] != TicTacToe.player_marker and board[i] != TicTacToe.ai_marker)
+        ]
+
+    def player_wins(self):
+        return TicTacToe.winner(self.board) == TicTacToe.player_marker
+
+    @staticmethod
+    def place(board, spot, marker):
+        board[spot] = marker
+
+    def player_move(self):
+        x = int(input("Your turn. x coordinate of your next move:"))  # magic(frontend)
+        y = int(input("y coordinate of your next move:"))  # magic(frontend)
+        # x, y = magic(frontend)
+        spot = y * 3 + x
+        TicTacToe.place(self.board, spot, TicTacToe.player_marker)
+
+    def ai_move(self):
+        print("AI's move\n")
+        # magic(frontend)
+        available = TicTacToe.available(self.board)
+        random.seed()
+        best_spot = None
+        if random.random() > 0.8:
+            best_spot = available[random.randint(0, len(available) - 1)]
+        else:
+            scores = []
+            for spot in available:
+                new_board = self.board[:]
+                new_board[spot] = TicTacToe.ai_marker
+                scores.append(TicTacToe.minimax(new_board, TicTacToe.player_marker))
+                best_spot = available[scores.index(max(scores))]
+
+        TicTacToe.place(self.board, best_spot, TicTacToe.ai_marker)
+
+    @staticmethod
+    def minimax(board, player):
+        """Returns the score of the board"""
+
+        winner = TicTacToe.winner(board)
+        if winner == TicTacToe.player_marker:
+            return -10
+        if winner == TicTacToe.ai_marker:
+            return +10
+        if winner == "None" and not TicTacToe.available(board):
+            return 0
+
+        available = TicTacToe.available(board)
+        scores = []
+        for spot in available:
+            new_board = board[:]
+            new_board[spot] = player
+            scores.append(TicTacToe.minimax(new_board, TicTacToe.other(player)))
+
+        if player == TicTacToe.player_marker:
+            return min(scores)
+        if player == TicTacToe.ai_marker:
+            return max(scores)
+
+    @staticmethod
+    def other(player):
+        if player == TicTacToe.player_marker:
+            return TicTacToe.ai_marker
+        else:
+            return TicTacToe.player_marker
+
+    def __str__(self):
+        display = ""
         for i in range(3):
             for j in range(3):
-                if self.board[i][j] == 0:
-                    return False
-        return True
-
-    def win_condition(self):
-        #Three parts - a row, a column or a diagnol
-        for row in self.rows:
-            if sum(row) == 6:
-                self.winner = 2
-                return True
-            if sum(row) == 3:
-                self.winner = 1
-                return False
-        for col in range(len(3)):
-        # Three parts - a row, a column or a diagnol
-
-
-    def place(self, x, y):
-        self.board[y][x] = self.who
-
+                display = display + f"{self.board[i * 3 + j]}"
+            display += "\n"
+        return display
