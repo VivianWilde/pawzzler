@@ -41,7 +41,7 @@ class Location:
         return self.field_in_view(0, to_col)
 
     def view(self):
-        """Return the slice of the map which should be visible to the player, given that they are at CURRENT_LOC"""
+        """Return the slice of the map which should be visible to the player, given that they are at CURRENT_LOC. CURRENT_LOC is also the center of this new matrix"""
         return self.map[
             self.rows_in_view[0] : self.rows_in_view[1],
             self.cols_in_view[0] : self.cols_in_view[1],
@@ -51,11 +51,11 @@ class Location:
         return get(self.map, x, y)
 
     def set(self, x, y, val):
-        set(self.map, x, y, val)
+        return set(self.map, x, y, val)
 
 
 def center(m):
-    # Return center of the matrix in x,y format
+    """Return center of the matrix in x,y format."""
     return m.shape[1] // 2, m.shape[0] // 2
 
 
@@ -91,6 +91,7 @@ def to_indices(m, x, y):
 
 
 def to_coords(m, r, c):
+    """Inverse of to_indices. Translate matrix index coordinates into x,y coordinates, treating the center of the matrix as the origin."""
     return to_x(m, c), to_y(m, r)
 
 
@@ -98,5 +99,5 @@ def magic(*args):
     return 42
 
 
-def frontend():
+def frontend(*args):
     return "1/0 is infinity!"
