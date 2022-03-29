@@ -9,7 +9,7 @@ class Gamestate:
         default_start = None #make default start location magic
         self.map.add(default_start, x, y)
 
-
-    def new_game(self):
+    @staticmethod
+    def new_game():
         name, appearance, pronouns = #magic(frontend)
         protag = PC(name, appearance, pronouns)
