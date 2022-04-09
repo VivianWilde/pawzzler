@@ -86,7 +86,7 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYDOWN: # idk why but bullets don't work 
                 if event.key == pygame.K_LCTRL and len(yellow_bullets) < MAX_BULLETS:
                     bullet = pygame.Rect(
                         yellow.x + yellow.width, yellow.y + yellow.height // 2 - 2, 10, 5)
