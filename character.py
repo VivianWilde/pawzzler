@@ -1,21 +1,27 @@
 
-
 class Character:
+    def __init__(self, appearance):
+        self.appearance = appearance
+        self.map = None
+        self.loc = None
+        pass
 
-    def __init__(self):
+    def move(self, x_dir, y_dir):
+        self.location.move()
+
+class NPC(Character, Interactable):
+    def __init__(self, appearance, dialogue=None):
+        super.__init__(appearance)
+        self.dialogue = dialogue
         pass
 
 
-class NPC:
-    def __init__(self, location):
-        self.location = location #do we need this?
+class Creature(NPC):
+    def __init__(self, appearance, dialogue):
+        super().__init__(appearance, dialogue)
 
-
-
-class PC:
-    def __init__(self, name, appearance, pronouns):
+class PC(Character):
+    def __init__(self, name, appearance, pronouns, start_map):
+        super(PC, self).__init__(self, , appearance)
         self.name = name
-        self.appearance = appearance
         self.pronouns = pronouns
-
-    def move(self):

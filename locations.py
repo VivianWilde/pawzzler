@@ -53,6 +53,9 @@ class Location:
     def set(self, x, y, val):
         return set(self.map, x, y, val)
 
+    def move(self, x_dir, y_dir):
+        object =
+
 
 def center(m):
     """Return center of the matrix in x,y format."""
