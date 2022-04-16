@@ -44,7 +44,7 @@ def character_moves(keys_pressed, character):
     if keys_pressed[pygame.K_DOWN]:  # down
         character.y += CHARACTER_VEL
 
-def main():
+def initialize():
     character = pygame.Rect(WIDTH/2, HEIGHT/2, CHARACTER_WIDTH, CHARACTER_HEIGHT)
 
     run = True
@@ -61,4 +61,4 @@ def main():
     pygame.quit()
 
 if __name__ == "__main__":
-    main()
+    initialize()
