@@ -57,8 +57,13 @@ class Location:
     def set(self, x, y, val):
         return set(self.map, x, y, val)
 
+<<<<<<< HEAD
 class World(Location):
     """A subclass representing the world, a special kind of location."""
+=======
+    def move(self, x_dir, y_dir):
+        object =
+>>>>>>> 0e67c64e580a81b334c13e613992b32a9e621b11
 
 
 def center(m):
