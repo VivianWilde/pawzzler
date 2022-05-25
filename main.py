@@ -1,4 +1,4 @@
-import gui
+import GUI
 import gamestate
 
 
