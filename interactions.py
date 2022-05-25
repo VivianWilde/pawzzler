@@ -60,7 +60,6 @@ class InteractableObject:
     def __init__(self, menu):
         self.dialogue_tree = Tree(menu, [])
         self.current = self.dialogue_tree
-        self.location = Location(0, 0, 0)
         self.image = None
 
     @property
@@ -72,6 +71,17 @@ class InteractableObject:
         self.current = self.dialogue_tree.branches[choice]
         # NOTE: interaction also requires a callback (like updating state) associated with a particular dialogue object
         pass
+
+class Door(InteractableObject):
+    def __init__(self, new_map, image=None):
+        self.target=new_map
+        self.image=image
+
+    def interact(self):
+
+
+
+
 
 
 class DialogueMenu:
