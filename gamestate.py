@@ -32,6 +32,12 @@ class Gamestate:
     def initialize_game_testing(self, level=0):
 
 
+    def is_movable_cell(self, newpos):
+
+
+    def update_character_pos(self, newpos):
+
+
     def get_command(self):
         self.gui.get_command
 
