@@ -3,6 +3,7 @@ import os
 import gamestate
 
 WIDTH, HEIGHT = 1440, 1024
+GRIDWIDTH, GRIDHEIGHT = 32, 32
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Wandering Screen")
 
@@ -44,13 +45,30 @@ def draw_wandering(character):
 
 def character_moves(keys_pressed, character):
     if keys_pressed[pygame.K_LEFT]:  # left
-        character.x -= CHARACTER_VEL # pass to backend to check if this is a legalmove. move if it is legal
+        try_move(-1, 0, character)
+        # character.x -= CHARACTER_VEL # pass to backend to check if this is a legalmove. move if it is legal
     if keys_pressed[pygame.K_RIGHT]:  # right
-        character.x += CHARACTER_VEL
+        try_move(1, 0, character)
+        # character.x += CHARACTER_VEL
     if keys_pressed[pygame.K_UP]:  # up
-        character.y -= CHARACTER_VEL
+        try_move(0, -1, character)
+        # character.y -= CHARACTER_VEL
     if keys_pressed[pygame.K_DOWN]:  # down
-        character.y += CHARACTER_VEL
+        try_move(0, 1, character)
+        # character.y += CHARACTER_VEL
+
+def try_move(xc, yc, character):
+    gridxy = convert_pixels_to_grid(character.x + xc, + character.y + yc)
+    if gamestate.is_movable_cell(gridxy):
+        gamestate.update_character_pos(gridxy)
+        character.x += CHARACTER_VEL * xc
+        character.y += CHARACTER_VEL * yc
+
+    
+def convert_pixels_to_grid(xy):
+    gridx = xy[0] // GRIDWIDTH
+    gridy = xy[1] // GRIDHEIGHT
+    return (gridx, gridy)
 
 def initialize():
     character = pygame.Rect(WIDTH/2, HEIGHT/2, CHARACTER_WIDTH, CHARACTER_HEIGHT)

@@ -1,115 +1,56 @@
 #!/usr/bin/env ipython3
-import numpy as np
-
-
 class Location:
-    """Matrix of cells. Possibly sparse, but we don't care about that here."""
+    def __init__(self, width=100, height=100, texture="void", start=(0, 0)):
+        self.loc = start
+        self.mapdict = {}
+        self.WIDTH = width
+        self.HEIGHT = height
+        self.texture = texture
 
-    def __init__(self, width, height, args):
-        self.map = np.zeros((height, width), dtype=object)
-        self.height = height
-        self.width = width
-        # self.loc = (0, 0)  # x,y
-        self.view_range = (magic(frontend), magic(frontend))
+    def add_character(self, x, y):
+        self.loc = (x, y)
 
-    @property
-    def loc(self):
-        return PlayerCharacter.loc # Player character r, c not x,y
+    def remove_character(self):
+        self.loc = None
 
-    @property
-    def row_range(self):
-        return self.view_range[1]
+    def add(self, item, x, y):
+        self.create_item(item, (x, y))
 
-    def col_range(self):
-        return self.view_range[0]
+    def create_item(self, item, pos):
+        self.mapdict[pos] = item
 
-    @property
-    def center(self):
-        return center(self.map)
+    def unblocked(self, pos):
+        return pos in self.mapdict
 
-    def field_in_view(self, idx, converter):
-        "Given an index (0 for x, 1 for y) and a converter (to translate to indices), return the lower and upper bounds on the number of FIELDs player should see, as matrix coordinates."
-        x = converter(self.map, self.loc[idx])
-        return max(0, x - self.view_range[idx] / 2), min(
-            self.map.shape[idx ^ 1], x + self.view_range[idx] / 2
-        )
+    def in_range(self, pos):
+        return 0 <= pos[0] <= self.WIDTH and 0 <= pos[1] <= self.HEIGHT
 
-    @property
-    def rows_in_view(self):
-        """Highest and lowest rows in view"""
-        return self.field_in_view(1, to_row)
+    def movable(self, direction):
+        pos = self.to_absolute(direction)
+        return self.unblocked(pos) and self.in_range(pos)
 
-    @property
-    def cols_in_view(self):
-        """Left- and rightmost cols in view"""
-        return self.field_in_view(0, to_col)
+    def update(self, direction):
+        self.loc = self.to_absolute(direction)
 
-    def view(self):
-        """Return the slice of the map which should be visible to the player, given that they are at CURRENT_LOC. CURRENT_LOC is also the center of this new matrix"""
-        return self.map[
-            self.rows_in_view[0] : self.rows_in_view[1],
-            self.cols_in_view[0] : self.cols_in_view[1],
-        ]
+    def try_interact(self):
+        for cell in self.adjacents():
+            if not self.unblocked(cell):
+                self.mapdict[cell].interact()
 
-    def get(self, x, y):
-        return get(self.map, x, y)
+    def adjacents(self):
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        return map(self.to_absolute, directions)
 
-    def set(self, x, y, val):
-        return set(self.map, x, y, val)
+    @staticmethod
+    def vec_add(a, b):
+        map(lambda i: a[i] + b[i], range(len(a)))
 
-<<<<<<< HEAD
-class World(Location):
-    """A subclass representing the world, a special kind of location."""
-=======
-    def move(self, x_dir, y_dir):
-        object =
->>>>>>> 0e67c64e580a81b334c13e613992b32a9e621b11
+    @staticmethod
+    def vec_sub(a, b):
+        map(lambda i: a[i] - b[i], range(len(a)))
 
+    def to_absolute(self, pos):
+        return self.vec_add(pos, self.loc)
 
-def center(m):
-    """Return center of the matrix in x,y format."""
-    return m.shape[1] // 2, m.shape[0] // 2
-
-
-def get(m, x, y):
-    indices = to_indices(m, x, y)
-    return m[indices[0]][indices[1]]
-
-
-def set(m, x, y, val):
-    indices = to_indices(m, x, y)
-    m[indices[0]][indices[1]] = val
-
-
-def to_col(m, x):
-    return center(m)[0] - x
-
-
-def to_row(m, y):
-    return center(m)[1] - y
-
-
-def to_x(m, c):
-    return c - center(m)[1]
-
-
-def to_y(m, r):
-    return r - center(m)[0]
-
-
-def to_indices(m, x, y):
-    """Translate coords relative to the center into coordinate of the matrix. Eg: in a 3x3 array, (0,0) translates to (1,1)"""
-    return to_row(m, y), to_col(m, x)
-
-
-def to_coords(m, r, c):
-    """Inverse of to_indices. Translate matrix index coordinates into x,y coordinates, treating the center of the matrix as the origin."""
-    return to_x(m, c), to_y(m, r)
-
-
-def magic(*args):
-    return 42
-
-
-def frontend(*args):
-    return "1/0 is infinity!"
+    def to_relative(self, pos):
+        return self.vec_sub(pos, self.loc)
