@@ -17,6 +17,9 @@ CHARACTER_WIDTH, CHARACTER_HEIGHT = 110, 80
 CHARACTER = pygame.transform.rotate(pygame.transform.scale(CHARACTER_IMAGE, (CHARACTER_WIDTH, CHARACTER_HEIGHT)), 90)
 CHARACTER_VEL = 5
 
+WELCOME_COLOR = (99,205,110)
+STARTING_COLOR = (99,205,110)
+BUTTON_COLOR = (255, 255, 0)
 GREEN_GRASS = (99,205,110)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -24,7 +27,21 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
 def draw_welcome(): 
-    return
+    WIN.fill(STARTING_COLOR)
+    pygame.font.init() 
+    my_font = pygame.font.SysFont('Comic Sans MS', 30)
+    title = my_font.render('Pawzzler!', False, BLACK)
+    WIN.blit(title, (WIDTH/2, HEIGHT/3))
+
+    # button in bottom third of the screen
+    pygame.draw.rect(WIN, BUTTON_COLOR, [WIDTH/2, 2*HEIGHT/3, 140, 40])
+    new_game_text = my_font.render('New Game', False, BLACK)
+    WIN.blit(new_game_text, (WIDTH/2, 2*HEIGHT/3))
+
+
+    pygame.display.update()
+
+
 
 def draw_wandering(character):
     WIN.fill(GREEN_GRASS)
