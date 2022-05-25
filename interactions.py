@@ -9,9 +9,13 @@ from locations import Location
 
 
 class DialogueEntry:
-    def __init__(self, line, callback= lambda *args: 5):
+    """Represents a single choice that a player could make, which elicits RESPONSE from the object and jumps to the next node in the tree."""
+
+    def __init__(self, response, line=None, callback=lambda *args: 5):
         self.line = line
-        self.callback=callback
+        self.response = response
+        self.callback = callback
+        "NPC says hi, player says I hate you NPC says, not very nice."
 
     def __call__(self, *args):
         self.callback(*args)
@@ -28,10 +32,10 @@ class Tree:
     True
     """
 
-    def __init__(self, data, branches=[]):
+    def __init__(self, label, branches=[]):
         for b in branches:
             assert isinstance(b, Tree)
-        self.data = data
+        self.label = label
         self.branches = list(branches)
 
     def is_leaf(self):
@@ -42,7 +46,7 @@ class Tree:
             branch_str = ", " + repr(self.branches)
         else:
             branch_str = ""
-        return "Tree({0}{1})".format(self.data, branch_str)
+        return "Tree({0}{1})".format(self.label, branch_str)
 
     def __str__(self):
         def print_tree(t, indent=0):
@@ -56,32 +60,50 @@ class Tree:
 
 class InteractableObject:
     """Includes a dialogue tree. TODO: How to populate the tree? Basically, the idea is that it pretends to be a tree, but we actually have a bunch of other weird stuff going on, so weird graph with pointers looping around. But to the user, it's a tree. And we can treat it as a git-style graph. Oh god."""
+    # TODO: We need to be able to pass GUI and Gamestate into interactions somehow.
 
-    def __init__(self, menu):
-        self.dialogue_tree = Tree(menu, [])
-        self.current = self.dialogue_tree
+    def __init__(self, prompt):
+        self.dialogue_tree = Tree(prompt, [])
+        self.current = (
+            self.dialogue_tree
+        )  # Pointer to where the user is in the dialogue tree.
         self.image = None
 
-    @property
-    def menu(self):
-        return self.dialogue_tree.data
+        # TODO: What was I thinking?
 
+        # TODO: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
+        # TODO: Comprehensive story for feedback - NPC response/acknowledgement of character choices. So the idea is Npc-prompt -> character chooses a response -> display choice and npc response -> repeat.
     def interact(self):
-        choice = self.menu.make_choice()  # TODO: make it prompt or something
-        self.current = self.dialogue_tree.branches[choice]
-        # NOTE: interaction also requires a callback (like updating state) associated with a particular dialogue object
-        pass
+        gui.display_line(self.current.label.response)
+        self.current.label.callback()
+        if len(self.current.branches) == 0:
+            self.exit_interaction()
+            return
+        chosen_idx = gui.dialogue(self.current.branches)
+        chosen_option = self.current.branches[chosen_idx]
+        self.current = chosen_option
+        self.interact()
+
+    def exit_interaction(self):
+        self.current = self.dialogue_tree
+
 
 class Door(InteractableObject):
     def __init__(self, new_map, image=None):
-        self.target=new_map
-        self.image=image
+        self.target = new_map
+        self.image = image
+        self.dialogue_tree = Tree(
+            DialogueEntry(f"Exit to {self.target.name}?"),
+            [
+                DialogueEntry(
+                    "Congratulations. Now get out.", "Yes", callback=self.teleport()
+                ),
+                DialogueEntry("Really?", "No"),
+            ],
+        )
 
-    def interact(self):
-
-
-
-
+    def teleport(self):
+        pass
 
 
 class DialogueMenu:
@@ -95,6 +117,14 @@ class DialogueMenu:
     def notes(self):
         """
         We also need to do something to note which options are allowed, to display the menu, and to return/report the finally selected option. Needs to be interactive. Dialogue tree.
+
+
+        Dialogue tree needs to report the options, not just the current node data.
+
+        "Hi, what is your name", callback=none
+
+        [("John Smith", callback=set name to Smith), (...), ...]
+
         """
 
     def make_choice(self):
