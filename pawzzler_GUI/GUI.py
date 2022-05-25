@@ -7,6 +7,9 @@ pygame.display.set_caption("Wandering Screen")
 
 FPS = 60
 
+HOMEBASE_IMAGE = pygame.image.load(os.path.join('pawzzler_GUI/Assets', 'Sketch_homebase.png'))
+HOMEBASE = pygame.transform.scale(HOMEBASE_IMAGE, (300, 300))
+
 CHARACTER_IMAGE = pygame.image.load(os.path.join('pawzzler_GUI/Assets', 'spaceship_yellow.png')) # replace with actual character graphic
 CHARACTER_WIDTH, CHARACTER_HEIGHT = 110, 80
 CHARACTER = pygame.transform.rotate(pygame.transform.scale(CHARACTER_IMAGE, (CHARACTER_WIDTH, CHARACTER_HEIGHT)), 90)
@@ -18,8 +21,12 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
-def draw_window(character):
+def draw_welcome(): 
+    return
+
+def draw_wandering(character):
     WIN.fill(GREEN_GRASS)
+    WIN.blit(HOMEBASE, (WIDTH/2, HEIGHT/2))
     WIN.blit(CHARACTER, (character.x, character.y))
     pygame.display.update()
 
@@ -44,7 +51,7 @@ def character_moves(keys_pressed, character):
     if keys_pressed[pygame.K_DOWN]:  # down
         character.y += CHARACTER_VEL
 
-def main():
+def initialize():
     character = pygame.Rect(WIDTH/2, HEIGHT/2, CHARACTER_WIDTH, CHARACTER_HEIGHT)
 
     run = True
@@ -57,8 +64,8 @@ def main():
         
         keys_pressed = pygame.key.get_pressed()
         character_moves(keys_pressed, character)
-        draw_window(character)
+        draw_wandering(character)
     pygame.quit()
 
 if __name__ == "__main__":
-    main()
+    initialize()

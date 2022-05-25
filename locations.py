@@ -9,8 +9,12 @@ class Location:
         self.map = np.zeros((height, width), dtype=object)
         self.height = height
         self.width = width
-        self.loc = (0, 0)  # x,y
+        # self.loc = (0, 0)  # x,y
         self.view_range = (magic(frontend), magic(frontend))
+
+    @property
+    def loc(self):
+        return PlayerCharacter.loc # Player character r, c not x,y
 
     @property
     def row_range(self):
@@ -53,8 +57,13 @@ class Location:
     def set(self, x, y, val):
         return set(self.map, x, y, val)
 
+<<<<<<< HEAD
+class World(Location):
+    """A subclass representing the world, a special kind of location."""
+=======
     def move(self, x_dir, y_dir):
         object =
+>>>>>>> 0e67c64e580a81b334c13e613992b32a9e621b11
 
 
 def center(m):
