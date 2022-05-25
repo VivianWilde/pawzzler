@@ -4,11 +4,11 @@ from character import Character, PC, NPC, Creature
 
 class Gamestate:
 
-    def __init__(self, protag, world=None, start_map=None, gui):
+    def __init__(self, protag, world=None, start_map=None, gui): #gamestate stores world and current map
         self.protag = protag
         self.world = world #make new map magic
         self.world.add(start_map, 5, 5)
-        self.map = start_map
+        self.current_map = start_map
         self.gui = gui
 
     @staticmethod
