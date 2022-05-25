@@ -9,12 +9,9 @@ from locations import Location
 
 
 class DialogueEntry:
-    def __init__(self, line):
+    def __init__(self, line, callback= lambda *args: 5):
         self.line = line
-
-    def callback(self, *args):
-        """Run when selected"""
-        pass
+        self.callback=callback
 
     def __call__(self, *args):
         self.callback(*args)
