@@ -2,6 +2,10 @@ import locations
 from locations import Location
 from character import Character, PC, NPC, Creature
 
+view_width = 45
+view_height = 32
+
+
 class Gamestate:
 
     def __init__(self, protag, world=None, start_map=None, gui): #gamestate stores world and current map
@@ -30,6 +34,12 @@ class Gamestate:
         self.world.add(cat)
 
     def initialize_game_testing(self, level=0):
+
+
+    def is_movable_cell(self, newpos):
+
+
+    def update_character_pos(self, newpos):
 
 
     def get_command(self):
