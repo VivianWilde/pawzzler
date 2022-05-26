@@ -12,6 +12,7 @@ class GUI():
 
     FPS = 60
 
+    started_newgame = False
     gamestate = None
     NEWGAME_BIMAGE = pygame.image.load(os.path.join('Assets', 'new_game_button.png'))
 
@@ -51,7 +52,8 @@ class GUI():
         if newgame_button.draw_button(self.WIN):
             # print('clicked')
             # self.gamestate = Gamestate.new_game(self)
-            self.draw_wandering(character)
+            started_newgame = True
+            # self.draw_choosechar()
 
         """
         pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
@@ -139,14 +141,17 @@ class GUI():
                     run = False
             
             keys_pressed = pygame.key.get_pressed()
-            self.draw_welcome(character)
+            while run and self.started_newgame == False:
+                self.draw_welcome(character)
+                if self.started_newgame:
+                    break
+            
+            while run: 
+                self.draw_choosechar()
+            
             """
             character_moves(keys_pressed, character)
             draw_wandering(character)
             """
         pygame.quit()
 
-"""
-    if __name__ == "__main__":
-        initialize()
-"""
