@@ -1,11 +1,11 @@
-import GUI
+from GUI import GUI
 import gamestate
 
 
 
 def main():
     gui = GUI()
-    gui.intialize()
+    gui.initialize()
     #gui needs to 1) show a screen with options for new game/from saved game/settings
     # 2) on new game, call Gamestate.new_game(self) -> return gamestate
 
