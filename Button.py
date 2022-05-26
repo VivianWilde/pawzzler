@@ -11,4 +11,6 @@ class Button():
         pos = pygame.mouse.get_pos()
 
         if self.rect.collidepoint(pos):
-            print('hover')
+            # print('hover')
+            if pygame.mouse.get_pressed()[0] == 1:
+                print('clicked')

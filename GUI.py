@@ -1,6 +1,6 @@
 import pygame
 import os
-# import gamestate
+# from gamestate import gamestate
 from Button import Button
 
 WIDTH, HEIGHT = 1440, 1024
@@ -34,10 +34,10 @@ def draw_welcome():
     pygame.font.init() 
     my_font = pygame.font.SysFont('Comic Sans MS', 30)
     title = my_font.render('Pawzzler!', False, BLACK)
-    WIN.blit(title, (WIDTH/2, HEIGHT/3))
+    WIN.blit(title, (WIDTH/2, HEIGHT/4))
 
     # button in bottom third of the screen
-    newgame_button = Button(WIDTH/2, 2*HEIGHT/3, NEWGAME_BIMAGE, 0.5)
+    newgame_button = Button(WIDTH/2 - 250, HEIGHT/3, NEWGAME_BIMAGE, 0.5)
     draw_button(newgame_button)
     """
     pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
@@ -45,7 +45,7 @@ def draw_welcome():
     WIN.blit(new_game_text, (WIDTH/2, 2*HEIGHT/3))
 
     #if the mouse is clicked on the button, start new game
-    if WIDTH/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+    if WIDTH/2 <= mouse[0] <= width/ 2+140 and height/2 <= mouse[1] <= height/2+40:
         pygame.quit()
 
     """
