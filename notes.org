@@ -1,0 +1,127 @@
+#+title: Notes
+* Pawzzler
+
+Sparse matrix of coords. So just a hashtable of coord-object mappings. If key in table, position is blocked. Otherwise, position is clear and can be moved to.
+
+
+Movement:
+#+begin_src python
+def move():
+    direction=magic()
+    if backend.movable(direction):
+        char.x, char.y=magic()
+        backend.update(direction)
+
+def unblocked(pos):
+    return pos in mapdict
+
+def in_range(pos):
+    return 0<=pos[0]<=WIDTH and 0<=pos[1]<=HEIGHT
+
+
+def movable(direction):
+    pos=to_absolute(direction)
+    return unblocked(pos) and in_range(pos)
+
+def update(direction):
+    self.loc=to_absolute(direction)
+
+def interact():
+    for cell in adjacents():
+        if not unblocked(cell):
+            mapdict[cell].interact()
+
+def adjacents():
+    directions=[(0,1),(1,0),(0,-1),(-1,0)]
+    return map(to_absolute, directions)
+
+
+
+def vec_add(a,b):
+    map(lambda i: a[i]+b[i], range(len(a)))
+def vec_sub(a,b):
+    map(lambda i: a[i]-b[i], range(len(a)))
+
+def to_absolute(pos):
+    return vec_add(pos,loc)
+
+def to_relative(pos):
+    return vec_sub(pos, loc)
+
+
+class State:
+    loc=(x,y)
+    mapdict={(x,y):object}
+
+
+#+end_src
+
+Drawing: Recenter based on vector subtraction if required.
+If character moves up - vector-subtraction.
+
+
+We don't even need range queries!
+
+* Writing a setup routine
+User clicks NEW.
+User selects name, pronouns, appearance, pass them back.
+Save them, and create a character object out of them.
+
+
+
+Wishful thinking:
+We have name, pronouns, appearance. Now we want to drop the character in the middle of a map and populate it.
+
+* TODO to get to demo
+Target: We run program, get through splash screen, get a default character avatar to run around a grass field.
+
+** Splash Screen
+- Create new GUI
+- GUI sets up splash screen, waits for input
+- GUI calls our new_game function or whatever when button pressed.
+** New Game
+- For now, create a stock character Jane Doe, with stock avatar.
+-
+** Stock Characters
+- Just stock objects.
+** Stock Objects (tedious)
+- Have a file library.py or something. Create a bunch of objects, and either save them to files or to a python hashmap. Then we can import these objects by loading them from files, or just by importing the hashmap of objects and doing lookups.
+
+- Files make more sense than hashmaps. So give each class a to_file method or something. Pickles?
+
+ - Library.py object generation needs to be run at least everytime we run newgame. So basically call it within newgame.
+ - Basic structure of library.py: ~x= make_obj(), all.append(x)~. Repeat. Then call ~for i in all: i.to_file()~
+ - Call it something like ~stock_objects.py~.
+#+begin_src python
+x=Character("jane doe", "she/her", "doom.bitmap")
+x.save_to_file()
+def complex():
+    do_stuff()
+y= Interactable("table", callback=complex)
+#+end_src
+
+** Handling Appearances/Avatar
+Basically, appearance is some reference to an image/bitmap/whatever. So filename/path.
+** Actually draw the field
+Create a location object with player at proper starting point (the startmap).
+Create a door at the proper position.
+Create necessary other objects (load from file, put in correct position).
+Pass the startmap to gui, tell them to render it. (TODO on their part)
+
+Move and interact as normal. Assuming this works, because abstraction!
+
+Non-interactable objects are just objects with their interaction callback just =lambda: pass= or whatever.
+
+*** Sort out map views and stuff (slightly tricky)
+- Two ranges - x and y ranges.
+- Or just bounds, and they turn it into ranges.
+- So we give bounds $a,b$ on x and $c,d$ on y.
+- =view()= is basically slice relative to =loc= (centered on =loc=).
+**** Objects spanning multiple cells
+- On our end, it's fine. We just have multiple copies in our mapdict.
+- We need a way to distinguish between drawn and undrawn objects.
+- So basically, set some kind of flag on objects in mapdict saying 'treat this as invisible'.
+- One trashy way is make each value a tuple (obj, visible?). But that's evil.
+** Interactables DONE?
+** TODO: Integration, stock objects, map views.
+** Rohan: Stock objects, look through for appeals to magic.
