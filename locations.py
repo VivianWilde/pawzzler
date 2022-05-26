@@ -1,18 +1,22 @@
 #!/usr/bin/env ipython3
+
+VIEW_WIDTH = 45
+VIEW_HEIGHT = 32
+
 class Location:
-    def __init__(self, name, width=100, height=100, texture="void", start=(0, 0)):
+    def __init__(self, name, texture="void", width=VIEW_WIDTH, height=VIEW_HEIGHT,  start=(0, 0)):#Shoudn't start be None
         self.name=name
-        self.loc = start
+        self.character_location = start
         self.mapdict = {}
         self.WIDTH = width
         self.HEIGHT = height
         self.texture = texture
 
     def add_character(self, x, y):
-        self.loc = (x, y)
+        self.character_location = (x, y)
 
     def remove_character(self):
-        self.loc = None
+        self.character_location = None
 
     def add(self, item, x, y):
         self.create_item(item, (x, y))
@@ -31,7 +35,7 @@ class Location:
         return self.unblocked(pos) and self.in_range(pos)
 
     def update(self, direction):
-        self.loc = self.to_absolute(direction)
+        self.character_location = self.to_absolute(direction) ## Please use these instead of the other two
 
     def try_interact(self):
         for cell in self.adjacents():
@@ -42,6 +46,21 @@ class Location:
         directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         return map(self.to_absolute, directions)
 
+    def objects_in_view(self):
+        result = {}
+        for key, value in sorted(self.mapdict.items(), key=lambda item: item[0] + self.WIDTH * item[1]):
+            if value not in result.values():
+                result[key] = value
+
+    #fix this up so that objects spanning multiple blocks are only returned once
+    #range query on objects
+
+
+    # def get_view_bounds(self):
+    #     left_range = VIEW_WIDTH//2
+    #     right_range = VIEW_WIDTH - left_range - 1
+    #     x_start = self.character_location[0] - left_range
+
     @staticmethod
     def vec_add(a, b):
         map(lambda i: a[i] + b[i], range(len(a)))
@@ -51,7 +70,8 @@ class Location:
         map(lambda i: a[i] - b[i], range(len(a)))
 
     def to_absolute(self, pos):
-        return self.vec_add(pos, self.loc)
+        return self.vec_add(pos, self.character_location)
 
     def to_relative(self, pos):
-        return self.vec_sub(pos, self.loc)
+        return self.vec_sub(pos, self.character_location)
+

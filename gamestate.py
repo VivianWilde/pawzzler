@@ -1,8 +1,7 @@
 import locations
 from locations import Location
 from character import PC
-view_width = 45
-view_height = 32
+
 WANDERING_WIDTH = 100
 WANDERING_HEIGHT = 100
 start_x = 5
@@ -20,9 +19,9 @@ class Gamestate:
     @staticmethod
     def new_game(gui):
         name, appearance, pronouns = gui.get_character_details()
-        wandering_map = Location(WANDERING_WIDTH, WANDERING_HEIGHT, "grass")
+        wandering_map = Location("Wandering Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
         protag = PC(name, appearance, pronouns)
-        start_map = Location(view_width,view_height, "floor")
+        start_map = Location("Homebase", "floor")
         gamestate = Gamestate(protag, wandering_map, start_map, gui)
         return gamestate
 
@@ -34,10 +33,7 @@ class Gamestate:
     def initialize_game_testing(self, level=0):
         pass
 
-    def is_movable_cell(self, newpos):#this is relative newpos
-        pass
-    def update_character_pos(self, newpos):
-        pass
+
     def get_command(self):
         self.gui.get_command
 
