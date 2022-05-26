@@ -1,7 +1,6 @@
 import locations
 from locations import Location
-from character import Character, PC, NPC, Creature
-
+from character import PC
 view_width = 45
 view_height = 32
 WANDERING_WIDTH = 100
@@ -27,21 +26,18 @@ class Gamestate:
         gamestate = Gamestate(protag, wandering_map, start_map, gui)
         return gamestate
 
-
-    def initialize_game_from_file(self, file, level=0):
-        cat_dialogue = 
-        cat = Creature("Cat image", dialogue=)
-        self.wandering_map.add(cat)
+    # def initialize_game_from_file(self, file, level=0):
+    #     cat_dialogue =
+    #     cat = Creature("Cat image", dialogue=)
+    #     self.wandering_map.add(cat)
 
     def initialize_game_testing(self, level=0):
-
+        pass
 
     def is_movable_cell(self, newpos):#this is relative newpos
-
-
+        pass
     def update_character_pos(self, newpos):
-
-
+        pass
     def get_command(self):
         self.gui.get_command
 
