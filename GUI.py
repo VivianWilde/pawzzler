@@ -1,16 +1,16 @@
 import pygame
 import os
-import gamestate
+# import gamestate
+from Button import Button
 
 WIDTH, HEIGHT = 1440, 1024
 GRIDWIDTH, GRIDHEIGHT = 32, 32
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Wandering Screen")
+pygame.display.set_caption("Pawzzler")
 
 FPS = 60
 
 NEWGAME_BIMAGE = pygame.image.load(os.path.join('Assets', 'new_game_button.png'))
-NEWGAME = pygame.transform.scale(NEWGAME_BIMAGE, (500, 250))
 
 HOMEBASE_IMAGE = pygame.image.load(os.path.join('Assets', 'Sketch_homebase.png'))
 HOMEBASE = pygame.transform.scale(HOMEBASE_IMAGE, (300, 300))
@@ -37,6 +37,8 @@ def draw_welcome():
     WIN.blit(title, (WIDTH/2, HEIGHT/3))
 
     # button in bottom third of the screen
+    newgame_button = Button(WIDTH/2, 2*HEIGHT/3, NEWGAME_BIMAGE, 0.5)
+    draw_button(newgame_button)
     """
     pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
     new_game_text = my_font.render('New Game', False, BLACK)
@@ -91,10 +93,16 @@ def try_move(xc, yc, character):
         character.y += CHARACTER_VEL * yc
 
     
-def convert_pixels_to_grid(xy):
-    gridx = xy[0] // GRIDWIDTH
-    gridy = xy[1] // GRIDHEIGHT
+def convert_pixels_to_grid(x, y):
+    return (x // GRIDWIDTH, y // GRIDHEIGHT)
+    """
+    gridx = x // GRIDWIDTH
+    gridy = y // GRIDHEIGHT
     return (gridx, gridy)
+    """
+
+def draw_button(button):
+    WIN.blit(button.image, (button.x, button.y))
 
 def initialize():
     character = pygame.Rect(WIDTH/2, HEIGHT/2, CHARACTER_WIDTH, CHARACTER_HEIGHT)
@@ -108,8 +116,11 @@ def initialize():
                 run = False
         
         keys_pressed = pygame.key.get_pressed()
+        draw_welcome()
+        """
         character_moves(keys_pressed, character)
         draw_wandering(character)
+        """
     pygame.quit()
 
 if __name__ == "__main__":
