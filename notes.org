@@ -127,5 +127,6 @@ Non-interactable objects are just objects with their interaction callback just =
 ** Rohan: Stock objects, look through for appeals to magic.
 *** Interaction
 **** Pass in GUI/state
-One bad way is to just pass them in as function arguments.
+One bad way is to just pass them in as function arguments. A better way is to have each interactable object associated with a gamestate and GUI
 **** Populate tree
+Internally, we do need to create every line manually. So we could have a way to create the dialogue tree as an org file or something and convert it to a tree structure, or a CLI to enter dialogue trees line by line, or just create them using literals.

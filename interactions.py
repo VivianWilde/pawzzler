@@ -63,22 +63,23 @@ class InteractableObject:
     # TODO: We need to be able to pass GUI and Gamestate into interactions somehow.
     # TODO: How to populate the tree?
 
-    def __init__(self, prompt):
+    def __init__(self, prompt, gamestate):
         self.dialogue_tree = Tree(prompt, [])
         self.current = (
             self.dialogue_tree
         )  # Pointer to where the user is in the dialogue tree.
         self.image = None
+        self.gamestate=gamestate
 
         # DONE: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
         # DONE: Comprehensive story for feedback - NPC response/acknowledgement of character choices. So the idea is Npc-prompt -> character chooses a response -> display choice and npc response -> repeat.
     def interact(self):
-        gui.display_line(self.current.label.response)
+        self.gamestate.gui.display_line(self.current.label.response)
         self.current.label.callback()
         if len(self.current.branches) == 0:
             self.exit_interaction()
             return
-        chosen_idx = gui.dialogue(self.current.branches)
+        chosen_idx = self.gamestate.gui.dialogue(self.current.branches)
         chosen_option = self.current.branches[chosen_idx]
         self.current = chosen_option
         self.interact()
