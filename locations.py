@@ -1,6 +1,7 @@
 #!/usr/bin/env ipython3
 class Location:
-    def __init__(self, width=100, height=100, texture="void", start=(0, 0)):
+    def __init__(self, name, width=100, height=100, texture="void", start=(0, 0)):
+        self.name=name
         self.loc = start
         self.mapdict = {}
         self.WIDTH = width
