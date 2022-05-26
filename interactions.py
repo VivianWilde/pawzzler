@@ -6,6 +6,7 @@ Common callbacks - resolve/open/advance questlines,
 
 """
 from locations import Location
+from networkx import DiGraph
 
 
 class DialogueEntry:
@@ -19,6 +20,7 @@ class DialogueEntry:
 
     def __call__(self, *args):
         self.callback(*args)
+
 
 
 class Tree:
@@ -60,11 +62,12 @@ class Tree:
 
 class InteractableObject:
     """Includes a dialogue tree. Basically, the idea is that it pretends to be a tree, but we actually have a bunch of other weird stuff going on, so weird graph with pointers looping around. But to the user, it's a tree. And we can treat it as a git-style graph. Oh god."""
-    # TODO: We need to be able to pass GUI and Gamestate into interactions somehow.
-    # TODO: How to populate the tree?
-
+    # DONE: We need to be able to pass GUI and Gamestate into interactions somehow.
+    # DONE: How to populate the tree?
+    # TODO: Refactor to use the digraph library
+    # TODO: Way to check if a path is valid - are we allowed to continue from the current point?
     def __init__(self, prompt, gamestate, appearance): # appearance is a filepath
-        self.dialogue_tree = Tree(prompt, [])
+        self.dialogue_tree = DiGraph()
         self.current = (
             self.dialogue_tree
         )  # Pointer to where the user is in the dialogue tree.
@@ -74,19 +77,21 @@ class InteractableObject:
         # DONE: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
         # DONE: Comprehensive story for feedback - NPC response/acknowledgement of character choices. So the idea is Npc-prompt -> character chooses a response -> display choice and npc response -> repeat.
     def interact(self):
-        self.gamestate.gui.display_line(self.current.label.response)
-        self.current.label.callback()
-        if len(self.current.branches) == 0:
+        self.gamestate.gui.display_line(self.current.response)
+        self.current["callback"]()
+        if len(self.branches()) == 0:
             self.exit_interaction()
             return
         chosen_idx = self.gamestate.gui.dialogue(self.current.branches)
-        chosen_option = self.current.branches[chosen_idx]
+        chosen_option = self.branches()[chosen_idx]
         self.current = chosen_option
         self.interact()
 
     def exit_interaction(self):
         self.current = self.dialogue_tree
 
+    def branches(self):
+        return self.dialogue_tree.adjacency()[self.current]
 
 class Door(InteractableObject):
     def __init__(self, new_map, image=None):

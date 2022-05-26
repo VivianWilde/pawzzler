@@ -29,3 +29,16 @@ HEADER_CHAR="*"
 
 
 #+end_src
+* Improved, DiGraph Edition
+Graph()
+Graph.add_node(line=""", resp=""", callback=lambda) is basically how we create a node/dialogue entry.
+
+Each node needs line, response, optionally callback.
+
+We also need a way to specify connections - this node leads to nodes a,b,c...
+
+We also need a way to check if we're allowed to advance past a particular node - a validity check func, basically.
+
+IDEA: Give node ID.
+Then callback and validity are stored via hashes from ID to funcs.
+ID can just be hash of line and response or concat of them or something.
