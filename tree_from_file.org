@@ -21,12 +21,11 @@ The nice thing is it also works with markdown just by changing the heading chara
 - If line=BEGIN, create dialogue entry with resp=nextline. Create a dialogue tree with this as the root.
 - TODO: Look at scheme reader stuff as an example.
 - If line is header, create dialogue entry with
+-
 
 #+begin_src python
 """Build a tree of dialogue entries out of an org file, line by line"""
 HEADER_CHAR="*"
-
-
 
 
 #+end_src
