@@ -1,0 +1,32 @@
+#+title: Tree_from_file
+A sample dialogue tree looks something like below. So the heading is the PC statement, and the plaintext is NPC response. Leaf nodes are response ends. TODO: How to annotate with callbacks? IDEA: Split at a certain character or seq. Everything to the right is just a lambda literal.
+* BEGIN
+Hello, I'm a bard. What are you?
+** Warrior
+Oh dear. Big dumb fighters.
+*** How dare you?
+*** Thog attack!
+*** Don't be absurd, I have a degree in architecture.
+** Mage
+Thank god, someone civilised.
+*** Fireball
+*** Fireball
+*** Fireball
+
+* Code
+The nice thing is it also works with markdown just by changing the heading character to a #.
+
+
+- Read in line.
+- If line=BEGIN, create dialogue entry with resp=nextline. Create a dialogue tree with this as the root.
+- TODO: Look at scheme reader stuff as an example.
+- If line is header, create dialogue entry with
+
+#+begin_src python
+"""Build a tree of dialogue entries out of an org file, line by line"""
+HEADER_CHAR="*"
+
+
+
+
+#+end_src

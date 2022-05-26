@@ -5,4 +5,4 @@ class PC:
         self.pronouns = self.parse_pronouns(pronouns)
     # TODO: All the rest, like handling appearances, etc.
     def parse_pronouns(self, pronouns):
-        return self.pronouns.split("/")
+        return pronouns.split("/")
