@@ -9,10 +9,13 @@ pygame.display.set_caption("Wandering Screen")
 
 FPS = 60
 
-HOMEBASE_IMAGE = pygame.image.load(os.path.join('pawzzler_GUI/Assets', 'Sketch_homebase.png'))
+NEWGAME_BIMAGE = pygame.image.load(os.path.join('Assets', 'new_game_button.png'))
+NEWGAME = pygame.transform.scale(NEWGAME_BIMAGE, (500, 250))
+
+HOMEBASE_IMAGE = pygame.image.load(os.path.join('Assets', 'Sketch_homebase.png'))
 HOMEBASE = pygame.transform.scale(HOMEBASE_IMAGE, (300, 300))
 
-CHARACTER_IMAGE = pygame.image.load(os.path.join('pawzzler_GUI/Assets', 'spaceship_yellow.png')) # replace with actual character graphic
+CHARACTER_IMAGE = pygame.image.load(os.path.join('Assets', 'spaceship_yellow.png')) # replace with actual character graphic
 CHARACTER_WIDTH, CHARACTER_HEIGHT = 110, 80
 CHARACTER = pygame.transform.rotate(pygame.transform.scale(CHARACTER_IMAGE, (CHARACTER_WIDTH, CHARACTER_HEIGHT)), 90)
 CHARACTER_VEL = 5
@@ -34,10 +37,16 @@ def draw_welcome():
     WIN.blit(title, (WIDTH/2, HEIGHT/3))
 
     # button in bottom third of the screen
-    pygame.draw.rect(WIN, BUTTON_COLOR, [WIDTH/2, 2*HEIGHT/3, 140, 40])
+    """
+    pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
     new_game_text = my_font.render('New Game', False, BLACK)
     WIN.blit(new_game_text, (WIDTH/2, 2*HEIGHT/3))
 
+    #if the mouse is clicked on the button, start new game
+    if WIDTH/2 <= mouse[0] <= width/2+140 and height/2 <= mouse[1] <= height/2+40:
+        pygame.quit()
+
+    """
 
     pygame.display.update()
 
