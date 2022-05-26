@@ -22,7 +22,7 @@ CHARACTER_VEL = 5
 
 WELCOME_COLOR = (99,205,110)
 STARTING_COLOR = (99,205,110)
-BUTTON_COLOR = (255, 255, 0)
+CHARSCREEN_COLOR = (99,205,110)
 GREEN_GRASS = (99,205,110)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -38,7 +38,13 @@ def draw_welcome():
 
     # button in bottom third of the screen
     newgame_button = Button(WIDTH/2 - 250, HEIGHT/3, NEWGAME_BIMAGE, 0.5)
-    draw_button(newgame_button)
+    """
+    WIN.blit(newgame_button.image, (newgame_button.x, newgame_button.y))
+    if newgame_button.click():
+        draw_choosechar()
+    """
+    if newgame_button.draw_button(WIN):
+        print('clicked')
     """
     pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
     new_game_text = my_font.render('New Game', False, BLACK)
@@ -49,6 +55,11 @@ def draw_welcome():
         pygame.quit()
 
     """
+
+    pygame.display.update()
+
+def draw_choosechar():
+    WIN.fill(CHARSCREEN_COLOR)
 
     pygame.display.update()
 
@@ -100,9 +111,6 @@ def convert_pixels_to_grid(x, y):
     gridy = y // GRIDHEIGHT
     return (gridx, gridy)
     """
-
-def draw_button(button):
-    WIN.blit(button.image, (button.x, button.y))
 
 def initialize():
     character = pygame.Rect(WIDTH/2, HEIGHT/2, CHARACTER_WIDTH, CHARACTER_HEIGHT)
