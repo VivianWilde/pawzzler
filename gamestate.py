@@ -1,6 +1,8 @@
 import locations
+import stock_objects
 from locations import Location
 from character import PC
+
 
 WANDERING_WIDTH = 100
 WANDERING_HEIGHT = 100
@@ -19,9 +21,10 @@ class Gamestate:
     @staticmethod
     def new_game(gui):
         name, appearance, pronouns = gui.get_character_details()
-        wandering_map = Location("Wandering Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
+        stock_objects.main()
+        wandering_map = stock_objects.from_info("Wandering screen", "Location")
+        start_map = stock_objects.from_info("Homebase", "Location")
         protag = PC(name, appearance, pronouns)
-        start_map = Location("Homebase", "floor")
         gamestate = Gamestate(protag, wandering_map, start_map, gui)
         return gamestate
 

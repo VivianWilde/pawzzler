@@ -4,6 +4,8 @@ import dill
 from pathlib import Path
 
 from character import PC
+from gamestate import WANDERING_WIDTH, WANDERING_HEIGHT
+from locations import Location
 
 
 def try_create(path, folder=True):
@@ -57,4 +59,11 @@ def test():
 
 def main():
     """Tedious actual generation of objects goes here."""
-    pass
+
+    wandering_map = Location("Wandering Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
+    to_file(wandering_map)
+    start_map = Location("Homebase", "floor")
+    to_file(start_map)
+
+
+

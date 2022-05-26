@@ -63,12 +63,12 @@ class InteractableObject:
     # TODO: We need to be able to pass GUI and Gamestate into interactions somehow.
     # TODO: How to populate the tree?
 
-    def __init__(self, prompt, gamestate):
+    def __init__(self, prompt, gamestate, appearance): # appearance is a filepath
         self.dialogue_tree = Tree(prompt, [])
         self.current = (
             self.dialogue_tree
         )  # Pointer to where the user is in the dialogue tree.
-        self.image = None
+        self.appearance = appearance
         self.gamestate=gamestate
 
         # DONE: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
