@@ -18,6 +18,8 @@ class GUI():
     HOMEBASE_IMAGE = pygame.image.load(os.path.join('Assets', 'Sketch_homebase.png'))
     HOMEBASE = pygame.transform.scale(HOMEBASE_IMAGE, (300, 300))
 
+    CHARACTER_NAME = ''
+    CHARACTER_PRONOUNS = ''
     CHARACTER_IMAGE = pygame.image.load(os.path.join('Assets', 'spaceship_yellow.png')) # replace with actual character graphic
     CHARACTER_WIDTH, CHARACTER_HEIGHT = 110, 80
     CHARACTER = pygame.transform.rotate(pygame.transform.scale(CHARACTER_IMAGE, (CHARACTER_WIDTH, CHARACTER_HEIGHT)), 90)
@@ -49,7 +51,7 @@ class GUI():
         if newgame_button.draw_button(self.WIN):
             # print('clicked')
             # self.gamestate = Gamestate.new_game(self)
-            self.draw_wandering(self.character)
+            self.draw_wandering(character)
 
         """
         pygame.draw.rect(WIN, BUTTON_COLOR, pygame.rect(WIDTH/2, 2*HEIGHT/3, 140, 40))
