@@ -125,3 +125,7 @@ Non-interactable objects are just objects with their interaction callback just =
 ** Interactables DONE?
 ** TODO: Integration, stock objects, map views.
 ** Rohan: Stock objects, look through for appeals to magic.
+*** Interaction
+**** Pass in GUI/state
+One bad way is to just pass them in as function arguments.
+**** Populate tree

@@ -59,8 +59,9 @@ class Tree:
 
 
 class InteractableObject:
-    """Includes a dialogue tree. TODO: How to populate the tree? Basically, the idea is that it pretends to be a tree, but we actually have a bunch of other weird stuff going on, so weird graph with pointers looping around. But to the user, it's a tree. And we can treat it as a git-style graph. Oh god."""
+    """Includes a dialogue tree. Basically, the idea is that it pretends to be a tree, but we actually have a bunch of other weird stuff going on, so weird graph with pointers looping around. But to the user, it's a tree. And we can treat it as a git-style graph. Oh god."""
     # TODO: We need to be able to pass GUI and Gamestate into interactions somehow.
+    # TODO: How to populate the tree?
 
     def __init__(self, prompt):
         self.dialogue_tree = Tree(prompt, [])
@@ -69,10 +70,8 @@ class InteractableObject:
         )  # Pointer to where the user is in the dialogue tree.
         self.image = None
 
-        # TODO: What was I thinking?
-
-        # TODO: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
-        # TODO: Comprehensive story for feedback - NPC response/acknowledgement of character choices. So the idea is Npc-prompt -> character chooses a response -> display choice and npc response -> repeat.
+        # DONE: Do we want to immediately exit upon hitting a leaf, or do we want an option for NPC to give a final message/warning or something. Ominous prophecies are important.
+        # DONE: Comprehensive story for feedback - NPC response/acknowledgement of character choices. So the idea is Npc-prompt -> character chooses a response -> display choice and npc response -> repeat.
     def interact(self):
         gui.display_line(self.current.label.response)
         self.current.label.callback()
