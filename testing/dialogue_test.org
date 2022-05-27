@@ -1,0 +1,12 @@
+* BEGIN
+Hello, I'm a bard. What are you?
+** Warrior
+Oh dear. Big dumb fighters.
+*** How dare you?
+*** Thog attack!
+*** Don't be absurd, I have a degree in architecture.
+** Mage
+Thank god, someone civilised.
+*** Fireball
+*** Cone of Cold
+*** Power Word Kill

@@ -10,8 +10,8 @@ Oh dear. Big dumb fighters.
 ** Mage
 Thank god, someone civilised.
 *** Fireball
-*** Fireball
-*** Fireball
+*** Cone of Cold
+*** Power Word Kill
 
 * Code
 The nice thing is it also works with markdown just by changing the heading character to a #.
@@ -64,4 +64,4 @@ Then, tag each tree with the names of callback and lambda functions.
 *** Linking/referencing
 TODO
 
-Perhaps a simple GOTO:<LABEL>, or GOTO:<LINE> in the heading, in place of what the player would normally say. So that way, when we read the heading in we
+Perhaps a simple GOTO:<LABEL>, or GOTO:<LINE> in the heading, in place of what the player would normally say. So that way, when we read the head
