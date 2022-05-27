@@ -24,8 +24,8 @@ def create_node(org_node, parent_id, scene):
     line = org_node.get_heading()
     resp = org_node.get_body
 
-    callback = eval(org_node.get_property("callback", "lambda:None"))
-    validator = eval(org_node.get_property("validator", "lambda:True"))
+    callback = eval(org_node.get_property("callback", "lambda gamestate:None"))
+    validator = eval(org_node.get_property("validator", "lambda gamestate:True"))
 
     if line == "BEGIN":
         new_id = line

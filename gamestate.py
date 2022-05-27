@@ -33,6 +33,11 @@ class Gamestate:
     #     cat = Creature("Cat image", dialogue=)
     #     self.wandering_map.add(cat)
 
+    def update_map(self, new_map):
+        self.current_map = new_map
+        self.gui.draw_current_map()
+
+
     def initialize_game_testing(self, level=0):
         pass
 
