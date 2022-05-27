@@ -89,8 +89,8 @@ class InteractableObject:
         if self.at_leaf():
             self.next_interaction()
             return
-        chosen_idx = self.gamestate.gui.dialogue(self.branches)
-        chosen_option = self.branches[chosen_idx]
+        chosen_idx = self.gamestate.gui.dialogue(self.valid_branches)
+        chosen_option = self.valid_branches[chosen_idx]
         self.current_id = chosen_option # TODO: get label if necessary
         self.interact()
 
@@ -98,13 +98,15 @@ class InteractableObject:
     def branches(self):
         return list(self.dialogue_tree.successors(self.current_id))
 
+    @property
+    def valid_branches(self):
+        return list(filter(lambda x: x["validator"](), self.branches))
 
     def get_root_node(self):
         return self.dialogue_tree.nodes["BEGIN"]
     # TODO: In parser, BEGIN is a special heading (breaks rules for labelling)
 
     def at_leaf(self):
-        valid_options=filter(lambda x: x["valid"](), self.branches)
         return len(list(valid_options))==0
 
 
