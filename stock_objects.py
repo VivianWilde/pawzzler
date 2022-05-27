@@ -61,12 +61,17 @@ def test():
 def main(gamestate):
     """Tedious actual generation of objects goes here."""
 
-    wandering_map = Location("Wandering Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
+    wandering_map = Location("Wandering_Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
     to_file(wandering_map)
     start_map = Location("Homebase", "floor")
     to_file(start_map)
 
-    Dungeon_master = InteractableObject("Dungeon Master", gamestate, )
+    Dungeon_master = InteractableObject("Dungeon_Master", "Dungeon_Master_image.png", "something.org")
+    to_file(Dungeon_master)
+    Desk = InteractableObject("Desk", "Desk_image.png", "desk_menu.org")
+    #homebase & door
+    door_to_homebase = Door()
+
 
 
 

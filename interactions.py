@@ -1,6 +1,7 @@
 #!/usr/bin/env ipython3
 
 from parse_dialogue import parse
+from pathlib import Path
 
 """Interact with game elements through dialogues and menus."""
 
@@ -38,14 +39,20 @@ class InteractableObject:
     # DONE: Refactor to use the digraph library
     # DONE: Way to check if a path is valid - are we allowed to continue from the current point?
     def __init__(
-        self, name, gamestate, appearance, scene_filename
+        self, name, appearance_filename, height, width, scene_filename
     ):  # appearance is a filepath
         self.name = name
         self.scenes = parse(scene_filename)  # List of digraphs
         self.scene_index = 0
         self.current_id = "BEGIN"  # Pointer to where the user is in the dialogue tree.
-        self.appearance = appearance
-        self.gamestate = gamestate
+        self.appearance = "./resources/images" + appearance_filename
+        self.height = height
+        self.width = width
+
+    def __getstate__(self):
+        state = dict(self.__dict__)
+        del state['gamestate']
+        return state
 
     @property
     def dialogue_tree(self):
@@ -109,14 +116,17 @@ class InteractableObject:
     def next_exists(self):
         return self.scene_index + 1 < len(self.scenes)
 
+    def set_gamestate(self, gamestate):
+        self.gamestate = gamestate
 
 class Door(InteractableObject):
-    def __init__(self, name, gamestate, appearance, new_map, target_coords):
+    def __init__(self, name, appearance_filename, new_map, target_coords):
         self.name = name
         self.target = new_map
         self.target_coords = target_coords
-        self.gamestate = gamestate
-        self.appearance = appearance
+        self.appearance = appearance_filename
+        self.height = 1
+        self.width = 1
         # self.dialogue_tree = Tree(
         #     DialogueEntry(f"Exit to {self.target.name}?"),
         #     [
@@ -137,9 +147,9 @@ class Door(InteractableObject):
 
 
 class NonInteractable(InteractableObject):
-    def __init__(self, name, appearance):
+    def __init__(self, name, appearance_filename, height, width):
         self.name = name
-        self.appearance = appearance
+        self.appearance = appearance_filename
 
     def interact(self):
         pass

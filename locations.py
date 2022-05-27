@@ -19,13 +19,15 @@ class Location:
         self.character_location = None
 
     def add(self, item, x, y):
-        self.create_item(item, (x, y))
+        self.create_item(item, x, y)
 
-    def create_item(self, item, pos):
-        self.mapdict[pos] = item
+    def create_item(self, item, x, y):
+        for i in range(item.width):
+            for j in range(item.height):
+                self.mapdict[(i+x, j+y)] = item
 
     def unblocked(self, pos):
-        return pos in self.mapdict
+        return pos not in self.mapdict
 
     def in_range(self, pos):
         return 0 <= pos[0] <= self.WIDTH and 0 <= pos[1] <= self.HEIGHT

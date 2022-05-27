@@ -10,6 +10,10 @@ def main():
 
     # 3) wait for player input.
 
+def load_first_story():
+
+
+
 
 if __name__ == "__main__":
     main()

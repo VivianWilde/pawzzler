@@ -1,4 +1,5 @@
 import locations
+import main
 import stock_objects
 from locations import Location
 from character import PC
@@ -22,6 +23,7 @@ class Gamestate:
     def new_game(gui):
         name, appearance, pronouns = gui.get_character_details()
         stock_objects.main()
+        main.first_story()
         wandering_map = stock_objects.from_info("Wandering screen", "Location")
         start_map = stock_objects.from_info("Homebase", "Location")
         protag = PC(name, appearance, pronouns)
