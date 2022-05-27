@@ -36,5 +36,3 @@ def create_node(org_node, parent_id, scene):
     scene.add_node(new_id, line=line, resp=resp, callback= callback, validator= validator)
     scene.add_edge(parent_id, new_id)
     return new_id
-    
-parse("dialogue_test.org")

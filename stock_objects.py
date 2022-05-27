@@ -2,6 +2,7 @@
 from os import mkdir
 import dill
 from pathlib import Path
+from interactions import InteractableObject, NonInteractable,Door
 
 from character import PC
 from gamestate import WANDERING_WIDTH, WANDERING_HEIGHT
@@ -13,7 +14,7 @@ def try_create(path, folder=True):
         path.mkdir() if folder else path.touch()
 
 
-SAVE_DIR = Path.home() / ".local/share/pawzzler"
+SAVE_DIR = "./resources/objects"
 try_create(SAVE_DIR)
 
 
@@ -57,13 +58,15 @@ def test():
     )
     print(equiv)
 
-def main():
+def main(gamestate):
     """Tedious actual generation of objects goes here."""
 
     wandering_map = Location("Wandering Screen", "grass", WANDERING_WIDTH, WANDERING_HEIGHT)
     to_file(wandering_map)
     start_map = Location("Homebase", "floor")
     to_file(start_map)
+
+    Dungeon_master = InteractableObject("Dungeon Master", gamestate, )
 
 
 
