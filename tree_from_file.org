@@ -10,8 +10,8 @@ Oh dear. Big dumb fighters.
 ** Mage
 Thank god, someone civilised.
 *** Fireball
-*** Fireball
-*** Fireball
+*** Cone of Cold
+*** Power Word Kill
 
 * Code
 The nice thing is it also works with markdown just by changing the heading character to a #.
@@ -33,12 +33,35 @@ HEADER_CHAR="*"
 Graph()
 Graph.add_node(line=""", resp=""", callback=lambda) is basically how we create a node/dialogue entry.
 
+#+begin_src python
+def create_node(parent, line, resp, callback_name, validator_name):
+    new_id=line+resp
+    G.add_node(new_id, line=line, resp=resp, callback=eval(callback_name), validator=eval(validator_name))
+    G.add_edge(parent, new_id)
+#+end_src
+
+
 Each node needs line, response, optionally callback.
 
 We also need a way to specify connections - this node leads to nodes a,b,c...
 
 We also need a way to check if we're allowed to advance past a particular node - a validity check func, basically.
 
+IDEA: We just tack on arbitrary functions as checks that are run when we reach a node.
+
+
 IDEA: Give node ID.
 Then callback and validity are stored via hashes from ID to funcs.
 ID can just be hash of line and response or concat of them or something.
+
+For callbacks and validity, add the name of the function we want, and then use 'eval' to get it.
+
+When we present the options to the GUI, we only present the options which are valid.
+** Text format
+Start out the same way, initially.
+Then, tag each tree with the names of callback and lambda functions.
+
+*** Linking/referencing
+TODO
+
+Perhaps a simple GOTO:<LABEL>, or GOTO:<LINE> in the heading, in place of what the player would normally say. So that way, when we read the head

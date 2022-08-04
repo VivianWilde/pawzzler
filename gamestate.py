@@ -1,4 +1,5 @@
 import locations
+import main
 import stock_objects
 from locations import Location
 from character import PC
@@ -22,6 +23,7 @@ class Gamestate:
     def new_game(gui):
         name, appearance, pronouns = gui.get_character_details()
         stock_objects.main()
+        main.first_story()
         wandering_map = stock_objects.from_info("Wandering screen", "Location")
         start_map = stock_objects.from_info("Homebase", "Location")
         protag = PC(name, appearance, pronouns)
@@ -32,6 +34,11 @@ class Gamestate:
     #     cat_dialogue =
     #     cat = Creature("Cat image", dialogue=)
     #     self.wandering_map.add(cat)
+
+    def update_map(self, new_map):
+        self.current_map = new_map
+        self.gui.draw_current_map()
+
 
     def initialize_game_testing(self, level=0):
         pass
