@@ -12,6 +12,9 @@ class Button():
         WIN.blit(self.image, (self.x, self.y))
         if self.click():
             return True
+
+    def draw_rect_button(self, WIN):
+        return
     
     def click(self):
         pos = pygame.mouse.get_pos()
